@@ -57,13 +57,13 @@ const HomePage = () => {
       Buy Exclusive Beats.
     </span>
     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-red-500 animate-fade-in-up [animation-delay:200ms]">
-      They Disappear After You Buy.
+      Where Original Sound Lives.
     </span>
   </h1>
   
   {/* Description */}
   <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up [animation-delay:300ms]">
-    Each beat is sold only once. When you buy it, <span className="text-orange-400 font-bold">it gets deleted from the site immediately</span>. No one else can ever buy it again. Plus, learn beat making with Cubase and FL Studio.
+ By unique beats with full exclusivity and learn industry-stasndard music production with Cubase and FL Studio
   </p>
 
   {/* CTA Buttons */}
