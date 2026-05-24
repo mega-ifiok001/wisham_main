@@ -48,23 +48,24 @@ const HomePage = () => {
 <header className="relative max-w-7xl mx-auto px-6 pt-6 md:pt-28 pb-20 text-center z-10">
   {/* Badge */}
   <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-xs text-orange-400 font-bold mb-3 animate-fade-in-down">
-    <Zap className="w-4 h-4 fill-current text-orange-500" /> Every beat is deleted forever after purchase
+    <Zap className="w-4 h-4 fill-current text-orange-500" /> Where Original Sounds Live
   </div>
   
   {/* Main Heading */}
-  <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white max-w-5xl mx-auto leading-[1.1] mb-8">
-    <span className="block animate-fade-in-up [animation-delay:100ms]">
-      Buy Exclusive Beats.
-    </span>
-    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-red-500 animate-fade-in-up [animation-delay:200ms]">
-      Where Original Sound Lives.
-    </span>
+  <h1 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tight text-white max-w-5xl mx-auto leading-[1.1] mb-8">
+ 
+   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-red-500 animate-fade-in-up [animation-delay:200ms]">
+  Find the Perfect Beat for Your Next Hit
+</span>
+<span className="block animate-fade-in-up [animation-delay:100ms]">
+  Master Music Production Like a Pro
+</span>
   </h1>
   
   {/* Description */}
   <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up [animation-delay:300ms]">
- By unique beats with full exclusivity and learn industry-stasndard music production with Cubase and FL Studio
-  </p>
+ Buy unique beats with full exclusivity and learn industry-standard music production with Cubase and FL Studio
+ </p>
 
   {/* CTA Buttons */}
   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">
