@@ -1,0 +1,76 @@
+// ==================================================================
+// WISHAM — Prisma schema (Neon Postgres)
+// Beats marketplace: exclusive / inclusive licenses
+// ==================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Beat {
+  id                  String    @id @default(cuid())
+  title               String
+  artist              String    @default("WISHAM")
+  genre               String
+  bpm                 Int
+  keySignature        String    @map("key_signature")
+  description         String?
+  duration            String    @default("3:00")
+  coverGradient       String    @default("from-red-500 to-red-700")
+  audioUrl            String?   @map("audio_url")
+  stemsUrl            String?   @map("stems_url")
+
+  // Pricing (USD)
+  exclusivePrice      Float     @default(60) @map("exclusive_price")
+  inclusivePrice      Float     @default(30) @map("inclusive_price")
+  inclusiveStemsPrice Float     @default(40) @map("inclusive_stems_price")
+
+  isSold              Boolean   @default(false) @map("is_sold")
+  soldAt              DateTime? @map("sold_at")
+
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  sales               Sale[]
+
+  @@map("beats")
+}
+
+model Sale {
+  id            String   @id @default(cuid())
+  beatId        String   @map("beat_id")
+  beatTitle     String   @map("beat_title")
+  buyerEmail    String   @map("buyer_email")
+  buyerName     String?  @map("buyer_name")
+  licenseType   String   @map("license_type") // "exclusive" | "inclusive"
+  includesStems Boolean  @default(false) @map("includes_stems")
+  amountUsd     Float    @map("amount_usd")
+  currency      String   @default("USD")
+  paymentRef    String?  @unique @map("payment_ref")
+  paymentStatus String   @default("pending") @map("payment_status") // pending | success | failed
+  licenseHash   String?  @unique @map("license_hash")
+  downloadToken String?  @unique @map("download_token")
+  paystackMeta  Json?    @map("paystack_meta")
+  emailSent     Boolean  @default(false) @map("email_sent")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  beat          Beat     @relation(fields: [beatId], references: [id], onDelete: Cascade)
+
+  @@index([paymentRef])
+  @@map("sales")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admin_users")
+}
