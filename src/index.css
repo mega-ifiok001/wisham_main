@@ -22,8 +22,6 @@
 }
 
 @layer utilities {
-  @apply animate-[fadeInDown_0.6s_ease-out_forwards];
-  
   .animate-fade-in-down {
     animation: fadeInDown 0.6s ease-out forwards;
   }

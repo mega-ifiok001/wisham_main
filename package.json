@@ -10,8 +10,6 @@
   "postinstall": "chmod +x node_modules/.bin/vite || true"
 },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
-    "@supabase/supabase-js": "^2.105.4",
     "clsx": "2.1.1",
     "lucide-react": "^1.16.0",
     "react": "19.2.6",

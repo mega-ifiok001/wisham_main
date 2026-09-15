@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Mail, Eye, EyeOff, Zap, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, Music, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const AdminLogin = () => {
@@ -9,145 +9,110 @@ export const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  
-  const { signIn } = useAuth();
+
+  const { admin, login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (admin) navigate('/admin/dashboard', { replace: true });
+  }, [admin, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoggingIn(true);
-
-    try {
-      const { error: signInErr, isAdmin: signedInAsAdmin } = await signIn(email, password);
-      
-      if (signInErr) {
-        setError(signInErr.message || 'Invalid email or password');
-        setIsLoggingIn(false);
-        return;
-      }
-
-      if (signedInAsAdmin) {
-        // Direct navigation without race conditions
-        navigate('/admin/dashboard', { replace: true });
-      } else {
-        setError('You do not have admin access. (Ensure your email is an authorized admin account)');
-        setIsLoggingIn(false);
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-      setIsLoggingIn(false);
+    const res = await login(email, password);
+    setIsLoggingIn(false);
+    if (res.error) {
+      setError(res.error);
+    } else {
+      navigate('/admin/dashboard', { replace: true });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 flex flex-col">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-orange-600/10 blur-[150px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] rounded-full bg-purple-600/10 blur-[120px]" />
-      </div>
-
-      {/* Header */}
-      <header className="relative z-10 p-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors">
+    <div className="min-h-screen bg-white text-neutral-900 flex flex-col">
+      <header className="p-6 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 transition-colors">
           <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Back to site</span>
+          <span className="text-sm font-semibold">Back to site</span>
+        </Link>
+        <Link to="/" className="flex items-center gap-2 font-black text-lg text-neutral-900">
+          <span className="w-7 h-7 rounded-lg bg-red-600 flex items-center justify-center text-white"><Music className="w-4 h-4" /></span>
+          WISHAM
         </Link>
       </header>
 
-      {/* Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 relative z-10">
+      <main className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md">
-          {/* Logo */}
           <div className="text-center mb-8">
-       
-            <h1 className="text-2xl font-black text-white">Admin Login</h1>
-            <p className="text-sm text-neutral-400 mt-2">Sign in to access the admin dashboard</p>
+            <span className="inline-flex w-14 h-14 rounded-2xl bg-red-600 text-white items-center justify-center mb-4">
+              <Lock className="w-6 h-6" />
+            </span>
+            <h1 className="text-2xl font-black">Admin Login</h1>
+            <p className="text-sm text-neutral-400 mt-2">Sign in to manage the WISHAM beat store</p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Error message */}
             {error && (
-              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
-                <p className="text-sm text-red-300">{error}</p>
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3 text-sm text-red-700">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                {error}
               </div>
             )}
 
-            {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-neutral-500 mb-2">Email</label>
               <div className="relative">
-                <Mail className="w-5 h-5 text-neutral-500 absolute left-4 top-4" />
+                <Mail className="w-5 h-5 text-neutral-400 absolute left-4 top-3.5" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ifiokaniebiet@gmail.com"
-                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-orange-500 transition-colors"
+                  placeholder="owner@wisham.com"
+                  className="w-full pl-12 pr-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-colors"
                 />
               </div>
             </div>
 
-            {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-neutral-500 mb-2">Password</label>
               <div className="relative">
-                <Lock className="w-5 h-5 text-neutral-500 absolute left-4 top-4" />
+                <Lock className="w-5 h-5 text-neutral-400 absolute left-4 top-3.5" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full pl-12 pr-12 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-4  text-neutral-500 hover:text-white transition-colors"
+                  className="absolute right-4 top-3.5 text-neutral-400 hover:text-neutral-900 transition-colors"
+                  aria-label="Toggle password visibility"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full py-3 rounded-xl  bg-orange-500  text-black font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
             >
-              {isLoggingIn ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  Sign In to Admin Panel
-                </>
-              )}
+              {isLoggingIn && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+              {isLoggingIn ? 'Signing in…' : 'Sign in to Admin Panel'}
             </button>
           </form>
-
-          {/* Help text */}
-          {/* <div className="mt-8 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800">
-            <p className="text-xs text-neutral-400 text-center">
-              <strong className="text-neutral-300">Admin Access Rule:</strong><br />
-              Authorized admin accounts: <code className="text-orange-400">ifiokaniebiet@gmail.com</code> or any email starting with <code className="text-orange-400">admin@</code>.
-            </p>
-          </div> */}
         </div>
-      </div>
+      </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 p-6 text-center">
-        <p className="text-xs text-neutral-600">© {new Date().getFullYear()} Wisham Admin Portal</p>
+      <footer className="p-6 text-center text-xs text-neutral-400">
+        © {new Date().getFullYear()} WISHAM Admin Portal
       </footer>
     </div>
   );
