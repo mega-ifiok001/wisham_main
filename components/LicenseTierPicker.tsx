@@ -16,7 +16,7 @@ export const TIERS: {
   {
     id: 'exclusive',
     name: 'Exclusive',
-    badge: 'Beat removed from store',
+    badge: 'Beat will be removed from store',
     price: (b) => b.exclusivePrice,
     features: ['Full Exclusive Ownership', 'Master WAV + Full Stems + License'],
     license: 'License included',
@@ -73,7 +73,7 @@ export function LicenseTierPicker({ beat, tier, onChange }: Props) {
                 </span>
                 <span className="font-bold text-sm">{t.name}</span>
                 {t.badge && (
-                  <span className="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wide">
+                  <span className="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-md uppercase tracking-wide">
                     {t.badge}
                   </span>
                 )}
@@ -86,7 +86,7 @@ export function LicenseTierPicker({ beat, tier, onChange }: Props) {
                   </span>
                 ) : (
                   <span className="block text-[10px] text-red-600 font-semibold uppercase flex items-center gap-0.5">
-                    <Sparkles className="w-3 h-3" /> {t.license}
+                     {t.license}
                   </span>
                 )}
               </div>
