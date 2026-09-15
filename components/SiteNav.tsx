@@ -11,6 +11,34 @@ const MOBILE_LINKS = [
   { href: '#how', label: 'How it works' },
 ];
 
+const DESKTOP_LINKS = [
+  { href: '/beats', label: 'Beats', icon: true },
+  { href: '#pricing', label: 'Licensing' },
+  { href: '#how', label: 'How it works' },
+];
+
+/** Text slides up to reveal a red duplicate, with a full-width underline sliding in beneath. */
+function NavLink({ href, label, icon }: { href: string; label: string; icon?: boolean }) {
+  const El = href.startsWith('/') ? Link : 'a';
+  return (
+    <El href={href} className="group relative inline-flex flex-col items-center py-1">
+      <span className="relative block h-[18px] overflow-hidden">
+        <span className="flex items-center gap-1.5 transition-transform duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-y-full">
+          {icon && <Flame className="w-4 h-4 text-red-500 shrink-0" />}
+          {label}
+        </span>
+        <span className="absolute inset-0 flex items-center gap-1.5 text-red-600 translate-y-full transition-transform duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0">
+          {icon && <Flame className="w-4 h-4 text-red-500 shrink-0" />}
+          {label}
+        </span>
+      </span>
+      <span className="relative mt-1 block h-[2px] w-full overflow-hidden">
+        <span className="absolute inset-0 bg-red-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]" />
+      </span>
+    </El>
+  );
+}
+
 export function SiteNav() {
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
@@ -29,15 +57,9 @@ export function SiteNav() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-neutral-500">
-            <Link href="/beats" className="hover:text-red-600 transition-colors flex items-center gap-1.5">
-              <Flame className="w-4 h-4 text-red-500" /> Beats
-            </Link>
-            <a href="#pricing" className="hover:text-red-600 transition-colors">
-              Licensing
-            </a>
-            <a href="#how" className="hover:text-red-600 transition-colors">
-              How it works
-            </a>
+            {DESKTOP_LINKS.map((link) => (
+              <NavLink key={link.href} href={link.href} label={link.label} icon={link.icon} />
+            ))}
           </div>
 
           {/* Morphing hamburger — 3 bars twist into an X inside a filled circle */}
