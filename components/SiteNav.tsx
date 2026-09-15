@@ -18,14 +18,14 @@ export function SiteNav() {
   return (
     <>
       <nav
-        className={`fixed md:sticky top-3 md:top-0 inset-x-3 md:inset-x-auto z-50 
-          bg-white/90 backdrop-blur border border-neutral-200 md:border-0 md:border-b
-          rounded-full md:rounded-none shadow-lg md:shadow-none
-          px-5 md:px-6 py-2.5 md:py-4 transition-shadow`}
+        className="fixed top-3 md:top-4 inset-x-3 md:inset-x-6 lg:inset-x-12 z-50
+          bg-white/90 backdrop-blur border border-neutral-200
+          rounded-full shadow-lg hover:shadow-xl
+          px-5 md:px-7 py-2.5 md:py-3 transition-shadow duration-300"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 font-black text-2xl tracking-tight" onClick={closeMenu}>
-            <Image src="/logo.png" alt="WISHAM" width={110} height={60} className="object-cover md:w-[130px]" />
+            <Image src="/logo.png" alt="WISHAM" width={110} height={60} className="object-cover md:w-[120px]" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-neutral-500">

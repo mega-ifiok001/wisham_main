@@ -69,12 +69,7 @@ export function CheckoutView() {
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col">
       <header className="border-b border-neutral-200 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 font-black text-2xl tracking-tight">
-            <span className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
-              <Music className="w-5 h-5" />
-            </span>
-            WISHAM
-          </a>
+         <img src="/logo.png" width={130} alt="" />
           <a href="/beats" className="text-sm font-semibold text-neutral-500 hover:text-red-600">
             ← Back to beats
           </a>
